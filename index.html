@@ -7,7 +7,7 @@
   </head>
   <body>
     <!-- Navbar -->
-   <header class="navbar">
+    <header class="navbar">
       <div class="brand">
         <img id="logoImg" alt="Logo AltoK" class="logo" />
         <h1>Alto K</h1>
@@ -17,19 +17,21 @@
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#productos">Productos</a></li>
           <li><a href="#contacto">Contacto</a></li>
-          <li>🛒 Carrito <span id="cartCount" class="cart-count">0</span></li>
+          <li>
+            <button id="cartOpenBtn" class="linklike">
+              🛒 Carrito <span id="cartCount" class="cart-count">0</span>
+            </button>
+          </li>
         </ul>
       </nav>
     </header>
-
-
 
     <!-- Contenido -->
     <main class="container">
       <!-- Productos -->
       <section id="productos" aria-labelledby="titulo-productos">
         <h2 id="titulo-productos">Productos</h2>
-        <section id="products" class="products-grid"></section>
+        <section id="productsGrid" class="products-grid"></section>
       </section>
 
       <!-- Contacto -->
@@ -48,8 +50,45 @@
       <small>&copy; 2025 AltoK</small>
     </footer>
 
-    <!-- Entrada de Vite/JS (importa el CSS desde main.js) -->
+    <!-- Drawer del carrito -->
+    <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+      <div class="cart-panel" role="dialog" aria-labelledby="cartTitle" aria-modal="true">
+        <header class="cart-header">
+          <h3 id="cartTitle">Tu carrito</h3>
+          <button class="cart-close" id="cartCloseBtn" aria-label="Cerrar">×</button>
+        </header>
+        <div id="cartItems" class="cart-items">
+          <!-- Aquí se renderizan los ítems -->
+        </div>
+        <!-- Datos del comprador -->
+      <section class="buyer-section">
+        <p class="buyer-hint">Usaremos estos datos para validar tu pago por Yape.</p>
+        <div class="buyer-form">
+          <label>
+            Nombre
+            <input id="buyerName" type="text" placeholder="Tu nombre" autocomplete="name" />
+          </label>
+          <label>
+            Teléfono
+            <input id="buyerPhone" type="tel" placeholder="9XXXXXXXX" inputmode="numeric" pattern="9\\d{8}" />
+          </label>
+        </div>
+      </section>
+
+        <footer class="cart-footer">
+          <div class="cart-total">
+            <span>Total</span>
+            <strong id="cartTotal">S/ 0.00</strong>
+          </div>
+          <div class="cart-actions">
+            <!-- <button id="cartClear" class="ghost"></button> -->
+            <button id="cartCheckout" class="cta">Pagar</button>
+          </div>
+        </footer>
+      </div>
+      <button class="cart-backdrop" id="cartBackdrop" aria-hidden="true"></button>
+    </aside>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
-
