@@ -2,6 +2,12 @@ import './style.css';
 import rellenasImg from './assets/rellenitas_fresa.jpg';
 import logoSrc from './assets/logo.png';
 
+// src/main.js  (al principio)
+if (!sessionStorage.getItem('google_id_token')) {
+  window.location.href = '/login.html';
+}
+
+
 /* ============= FORMULARIO DE CONTACTO ============= */
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('contactForm');

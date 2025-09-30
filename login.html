@@ -1,0 +1,39 @@
+<!-- login.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Iniciar sesión – Alto K</title>
+
+  <!-- SDK de Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- Tu JS de autenticación -->
+  <script type="module" src="/src/auth.js"></script>
+
+  <!-- Re-usa tu hoja de estilos o crea una minimal -->
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body class="login-page">
+
+  <h1>Acceder a la tienda</h1>
+
+  <!-- Contenedor donde GIS inyectará el botón y One-Tap -->
+  <div id="g_id_onload"
+       data-client_id="%VITE_GOOGLE_CLIENT_ID%"
+       data-context="signin"
+       data-ux_mode="popup"
+       data-callback="handleCredentialResponse"
+       data-auto_prompt="true">
+  </div>
+
+  <!-- Botón de “Acceder con Google” (estándar) -->
+  <div class="g_id_signin"
+       data-type="standard"
+       data-shape="rectangular"
+       data-theme="filled_blue"
+       data-text="signin_with">
+  </div>
+
+</body>
+</html>
