@@ -235,10 +235,18 @@ form button:hover{ filter:brightness(.95) }
   display:flex; align-items:center; justify-content:space-between;
   padding: 14px 16px; border-bottom:1px solid var(--border);
 }
+/* Botón cerrar del carrito con estilo CTA azul */
 .cart-close{
-  width:32px; height:32px; border-radius:10px;
-  border:1px solid var(--border); background:#fff; cursor:pointer;
+  width:32px; height:32px;
+  display:inline-flex; align-items:center; justify-content:center;
+  border-radius:12px;
+  border:1px solid var(--accent-cta);
+  background:var(--accent-cta);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
 }
+.cart-close:hover{ filter:brightness(.95); }  
 .cart-items{
   padding: 10px 12px; overflow:auto;
 }
@@ -271,18 +279,33 @@ form button:hover{ filter:brightness(.95) }
 }
 .cart-item .subtotal{ font-weight:700; }
 
+/* --- Footer del carrito: una sola columna --- */
 .cart-footer{
-  border-top:1px solid var(--border);
-  padding:12px 16px;
-  display:grid; gap:10px;
+  display:block !important;      /* evita grid/flex heredados */
+  padding: 10px 16px 14px;       /* ajusta si quieres */
 }
+
+/* Línea de total arriba (queda tal cual) */
 .cart-total{
-  display:flex; align-items:center; justify-content:space-between;
-  font-size:1rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
 }
+
+/* Acciones: "Vaciar" a la IZQUIERDA y "Pagar" a la DERECHA */
 .cart-actions{
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  display:flex !important;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  width:100%;
+  margin:0;                      /* ¡sin centrado! */
 }
+
+/* Asegúrate de NO empujar "Pagar" con margin-left:auto */
+.cart-actions .pay{ margin-left:0 !important; }
+
 .cart-actions .ghost{
   background:#fff; color:var(--text); border:1px solid var(--border);
   padding:8px 12px; border-radius:12px; cursor:pointer; font-weight:600;
@@ -295,7 +318,7 @@ form button:hover{ filter:brightness(.95) }
   border:1px solid var(--accent-cta);
   background:var(--accent-cta);
   color:#fff;
-  padding:8px 12px;
+  padding:10px 14px;
   border-radius:12px;
   cursor:pointer;
   font-weight:700;
@@ -348,17 +371,86 @@ form button:hover{ filter:brightness(.95) }
   margin-left:auto;          /* empuja el botón a la derecha */
 }
 
+#cartClear{ justify-self:start !important; margin:0 !important; }
+#cartCheckout{ justify-self:end !important; margin:0 !important; }
+
+/* Por si algún estilo viejo empujaba el pagar */
+.cart-actions .pay{ margin-left:0 !important; }
+
 .cart-panel{ z-index:2; }
 .cart-backdrop{ z-index:1; }
 
 .cta:hover,
 .add-btn:hover{ filter:brightness(.95) }
 
+/* ===== Overlay global del QR ===== */
+.qr-modal{
+  position:fixed; inset:0; z-index:80; display:none;
+  /* ubicamos el contenido hacia la derecha (zona del carrito) */
+  align-items:center; justify-content:flex-end;
+}
+.qr-modal.open{ display:flex; }
+
+.qr-backdrop{
+  position:absolute; inset:0; background:rgba(0,0,0,.5);  /* oscurece toda la pantalla */
+}
+
+.qr-box{
+  position:relative;
+  margin-right: clamp(8px, 3vw, 24px);   /* pegado al lado del carrito */
+  background:#fff; border:1px solid var(--border);
+  border-radius:16px; box-shadow:var(--shadow);
+  width:min(380px, 92vw);
+  padding:14px 16px; text-align:center; z-index:81; /* sobre el backdrop */
+}
+.qr-box img{
+  width:100%; height:auto; object-fit:contain; display:block;
+}
+
+/* Deshabilitado (gris) */
+.cta.is-disabled,
+.cta[disabled]{
+  background:#e5e7eb;
+  border-color:#e5e7eb;
+  color:#6b7280;
+  cursor:not-allowed;
+  pointer-events:none;
+  filter:none;
+}
+
+/* Vaciar: variante gris discreta */
+#cartClear{
+  background:#e5e7eb;          /* gris claro */
+  border-color:#e5e7eb;
+  color:#111827;               /* texto gris oscuro */
+}
+
+#cartClear:hover{
+  background:#d1d5db;          /* un toque más oscuro al hover */
+  border-color:#d1d5db;
+  filter:none;                 /* sin brillo de la .cta azul */
+}
+
+#cartClear:focus-visible{
+  box-shadow:0 0 0 3px #c7d2fe; /* foco accesible */
+}
+
+
 /* ============ Footer simple ============ */
 .footer{ opacity:.75; text-align:center; padding:24px 0 }
 
-/* ============ Responsive navbar ============ */
+/* ============ Responsive navba============ */
 @media (max-width:600px){
   header.navbar{ flex-direction:column; align-items:flex-start; gap:8px }
   header.navbar nav ul{ flex-direction:column; gap:10px; align-items:flex-start }
 }
+
+header.navbar{
+  position: sticky;
+  top: 0;
+  z-index: 60;         /* arriba del contenido/sidebars */
+  background: #fff;    /* para que no se vea transparente al pasar por detrás */
+}
+
+header.navbar.scrolled{ box-shadow: 0 4px 12px rgba(0,0,0,.06); }
+

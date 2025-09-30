@@ -10,7 +10,7 @@
     <header class="navbar">
       <div class="brand">
         <img id="logoImg" alt="Logo AltoK" class="logo" />
-        <h1>Alto K</h1>
+        <h1>AltoK</h1>
       </div>
       <nav aria-label="principal">
         <ul>
@@ -34,7 +34,7 @@
         <section id="productsGrid" class="products-grid"></section>
       </section>
 
-      <!-- Contacto -->
+      <!-- Contacto 
       <section id="contacto" aria-labelledby="titulo-contacto">
         <h2 id="titulo-contacto">Contacto</h2>
         <form id="contactForm">
@@ -42,7 +42,7 @@
           <input type="email" placeholder="Tu correo" required />
           <button type="submit">Enviar</button>
         </form>
-      </section>
+      </section> -->
     </main>
 
     <!-- Footer -->
@@ -92,6 +92,7 @@
           </div>
           <div class="cart-actions">
             <!-- <button id="cartClear" class="ghost"></button> -->
+            <button id="cartClear" class="cta">Vaciar</button>
             <button id="cartCheckout" class="cta">Pagar</button>
           </div>
         </footer>
@@ -99,6 +100,15 @@
       <button class="cart-backdrop" id="cartBackdrop" aria-hidden="true"></button>
     </aside>
 
+    <!-- Overlay global para QR -->
+    <div id="qrModal" class="qr-modal" aria-hidden="true">
+      <div id="qrBackdrop" class="qr-backdrop" aria-hidden="true"></div>
+      <div class="qr-box" role="dialog" aria-labelledby="qrTitle" aria-modal="true">
+        <!-- <h4 id="qrTitle" style="margin:0 0 8px;"></h4> -->
+        <img id="qrBigImg" alt="QR de Yape" />
+        <!-- <button id="qrCloseBtn" class="ghost" style="margin-top:10px;">Cerrar</button> -->
+      </div>
+    </div>
 
     <script type="module" src="/src/main.js"></script>
   </body>

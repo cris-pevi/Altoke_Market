@@ -6,6 +6,7 @@ import imgPokeke     from './assets/pokeke.jpg';
 import imgPulpin     from './assets/pulpin.jpg';
 import imgChocolate  from './assets/bonobon.jpg';
 import imgCoca       from './assets/coca_cola_1.png';
+import imgQR         from './assets/QR_yape.jpg'; // ajusta el nombre si difiere
 
 /* ============= FORM / INIT ============= */
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCartBadge();
   refreshCartOpenBtn();
   renderCart();
+  toggleCheckoutDisabled(); // estado inicial del botón Pagar
 });
 
 /* ============= ESTADO DEL CARRITO ============= */
@@ -64,6 +66,7 @@ function applyCartChange(id, qty) {
   refreshCartOpenBtn();
   renderCart();
   renderProducts();
+  toggleCheckoutDisabled(); // <- actualiza estado del botón Pagar
 }
 function refreshCartOpenBtn() {
   const btn = document.getElementById('cartOpenBtn');
@@ -162,10 +165,23 @@ const $total     = document.getElementById('cartTotal');
 const $clearBtn  = document.getElementById('cartClear');
 const $checkout  = document.getElementById('cartCheckout');
 
+// Campos Nombre/Teléfono del carrito
+const $buyerName  = document.getElementById('buyerName');
+const $buyerPhone = document.getElementById('buyerPhone');
+
+// Modal QR (overlay global)
+const $qrModal    = document.getElementById('qrModal');
+const $qrBackdrop = document.getElementById('qrBackdrop');
+const $qrBigImg   = document.getElementById('qrBigImg');
+const $qrCloseBtn = document.getElementById('qrCloseBtn');
+
+// Evita cierres accidentales por clicks dentro del panel
+document.querySelector('.cart-panel')?.addEventListener('click', (e) => e.stopPropagation());
+
 $openBtn?.addEventListener('click', () => openCart());
 $closeBtn?.addEventListener('click', () => closeCart());
 $backdrop?.addEventListener('click', () => closeCart());
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCart(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeCart(); closeQrModal(); } });
 
 function openCart() {
   if (cartCount() === 0) return; // no abrir si está vacío
@@ -257,6 +273,22 @@ $items?.addEventListener('input', (e) => {
   applyCartChange(id, input.value);
 });
 
+/* ===== Validación de datos del comprador y botón Pagar ===== */
+function buyerDataValid() {
+  const name  = ($buyerName?.value || '').trim();
+  const phone = ($buyerPhone?.value || '').trim();
+  return name.length >= 2 && /^9\d{8}$/.test(phone);
+}
+function toggleCheckoutDisabled() {
+  const ready = buyerDataValid() && cartCount() > 0;
+  if ($checkout) {
+    $checkout.disabled = !ready;
+    $checkout.classList.toggle('is-disabled', !ready);
+  }
+}
+$buyerName?.addEventListener('input', toggleCheckoutDisabled);
+$buyerPhone?.addEventListener('input', toggleCheckoutDisabled);
+
 /* Vaciar y pagar */
 $clearBtn?.addEventListener('click', () => {
   for (const id of Object.keys(cart)) delete cart[id];
@@ -265,12 +297,36 @@ $clearBtn?.addEventListener('click', () => {
   refreshCartOpenBtn();
   renderCart();
   renderProducts();
+  toggleCheckoutDisabled();
 });
 
+/* ===== Overlay global del QR ===== */
+function openQrModal() {
+  if ($qrBigImg) $qrBigImg.src = imgQR;   // imagen nítida del QR
+  $qrModal?.classList.add('open');
+}
+function closeQrModal() {
+  $qrModal?.classList.remove('open');
+}
+$qrBackdrop?.addEventListener('click', closeQrModal);
+$qrCloseBtn?.addEventListener('click', closeQrModal);
+
 $checkout?.addEventListener('click', () => {
-  alert(`Total a pagar: ${money.format(cartTotal())}`);
-  // Aquí podrías redirigir a una página de pago / QR / etc.
+  if (cartCount() === 0) return;
+  if (!buyerDataValid()) {
+    alert('Completa tu nombre y un teléfono válido (9XXXXXXXX).');
+    ($buyerName?.value || '').trim().length < 2 ? $buyerName?.focus() : $buyerPhone?.focus();
+    return;
+  }
+  openQrModal();
 });
+
+document.addEventListener('scroll', () => {
+  const h = document.querySelector('header.navbar');
+  if (!h) return;
+  h.classList.toggle('scrolled', window.scrollY > 4);
+});
+
 
 /* Utilidad */
 function clampInt(v, min, max) {
