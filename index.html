@@ -51,29 +51,39 @@
     </footer>
 
     <!-- Drawer del carrito -->
+    <!-- Drawer del carrito -->
     <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
       <div class="cart-panel" role="dialog" aria-labelledby="cartTitle" aria-modal="true">
         <header class="cart-header">
           <h3 id="cartTitle">Tu carrito</h3>
           <button class="cart-close" id="cartCloseBtn" aria-label="Cerrar">×</button>
         </header>
+
         <div id="cartItems" class="cart-items">
           <!-- Aquí se renderizan los ítems -->
         </div>
+
         <!-- Datos del comprador -->
-      <section class="buyer-section">
-        <p class="buyer-hint">Usaremos estos datos para validar tu pago por Yape.</p>
-        <div class="buyer-form">
-          <label>
-            Nombre
-            <input id="buyerName" type="text" placeholder="Tu nombre" autocomplete="name" />
-          </label>
-          <label>
-            Teléfono
-            <input id="buyerPhone" type="tel" placeholder="9XXXXXXXX" inputmode="numeric" pattern="9\\d{8}" />
-          </label>
-        </div>
-      </section>
+        <section class="buyer-section">
+          <p class="buyer-hint">Usaremos estos datos para validar tu pago por Yape.</p>
+          <div class="buyer-form buyer-form--stack">
+            <input
+              id="buyerName"
+              type="text"
+              placeholder="Tu nombre"
+              aria-label="Nombre"
+              autocomplete="name"
+            />
+            <input
+              id="buyerPhone"
+              type="tel"
+              placeholder="Tu teléfono"
+              aria-label="Teléfono"
+              inputmode="numeric"
+              pattern="9\\d{8}"
+            />
+          </div>
+        </section>
 
         <footer class="cart-footer">
           <div class="cart-total">
@@ -88,6 +98,7 @@
       </div>
       <button class="cart-backdrop" id="cartBackdrop" aria-hidden="true"></button>
     </aside>
+
 
     <script type="module" src="/src/main.js"></script>
   </body>

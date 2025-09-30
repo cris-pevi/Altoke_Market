@@ -309,6 +309,48 @@ form button:hover{ filter:brightness(.95) }
   cursor:not-allowed;
 }
 
+/* ===== Datos del comprador (espaciado y estilo) ===== */
+.buyer-section{
+  padding: 10px 16px;      /* margen interno lateral para que no “pegue” a la izquierda */
+}
+
+.buyer-hint{
+  margin: 0 0 10px;
+  font-size: .95rem;
+  opacity: .8;
+}
+
+.buyer-form--stack{
+  display: grid;
+  gap: 10px;                   /* separa los dos inputs uno debajo del otro */
+}
+
+.buyer-form input{
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;         /* bordes más redondeados */
+  background: #fff;
+  font-size: .98rem;
+}
+
+.buyer-form input::placeholder{
+  color: var(--muted);         /* placeholder gris suave */
+}
+
+.cart-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  justify-content:flex-end;  /* derecha */
+}
+.cart-actions .cta{
+  margin-left:auto;          /* empuja el botón a la derecha */
+}
+
+.cart-panel{ z-index:2; }
+.cart-backdrop{ z-index:1; }
+
 .cta:hover,
 .add-btn:hover{ filter:brightness(.95) }
 
